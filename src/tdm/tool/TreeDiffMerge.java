@@ -128,6 +128,10 @@ public class TreeDiffMerge {
       if( editLog )
         merge.getEditLog().writeEdits( new XMLPrinter(
            new FileOutputStream( editLogName )));
+      
+      // Handle writing conflict markers.
+      var conflictLog = merge.getConflictLog();
+      System.out.println(conflictLog.getConflicts().getFirst().text);
     } catch ( Exception e ) {
       System.err.println("Exception while merging.. trace follows:");
       System.err.println( e.toString() );
