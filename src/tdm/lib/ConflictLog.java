@@ -39,14 +39,21 @@ public class ConflictLog {
   public static final int MOVE = 4;
 
   private final String[] TYPETAGS = {null,"update","delete","insert","move"};
-  private final LinkedList<ConflictEntry> conflicts = new LinkedList<>();
-  private final LinkedList<ConflictEntry> warnings = new LinkedList<>();
+  private LinkedList conflicts = new LinkedList();
+  private LinkedList warnings = new LinkedList();
   private PathTracker pt = null;
 
   public ConflictLog(PathTracker apt) {
     pt=apt;
   }
 
+  private class ConflictEntry {
+    String text = null;
+    BaseNode b=null;
+    BranchNode b1=null,b2=null;
+    String mergePath = null;
+    int type = 0;
+  }
 
   public void addListConflict( int type, String text, BaseNode b, BranchNode ba, BranchNode bb ) {
     add( true, false, type,text,b,ba,bb);
@@ -162,9 +169,5 @@ public class ConflictLog {
 
   public boolean hasConflicts() {
     return conflicts.size() > 0;
-  }
-  
-  public LinkedList<ConflictEntry> getConflicts() {
-    return conflicts;
   }
 }
