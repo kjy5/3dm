@@ -263,6 +263,17 @@ public class Merge implements XMLNode.Merger {
               // If it's a text node, put conflict in text.
               var conflictText = "<<<<<<< " + a.getContent().toString() + " ||||||| " + a.getBaseMatch().getContent().toString() + " ======= " + b.getContent().toString() + ">>>>>>>";
               ((XMLTextNode) a.getContent()).setText(conflictText.toCharArray());
+          } else {
+              // If it's an element node, put conflict in attributes.
+              var elementNode = (XMLElementNode) a.getContent();
+              var newAttributes = new AttributesImpl(elementNode.getAttributes());
+              newAttributes.addAttribute("", "conflict", "conflict", "CDATA", "true");
+              newAttributes.addAttribute("", "base", "base", "CDATA", a.getBaseMatch().getContent().toString());
+              newAttributes.addAttribute("", "left", "left", "CDATA", a.getContent().toString());
+              newAttributes.addAttribute("", "right", "right", "CDATA", b.getContent().toString());
+              
+              // Update the attributes of the element node.
+              elementNode.setAttributes(newAttributes);
           }
         
         return a.getContent();
