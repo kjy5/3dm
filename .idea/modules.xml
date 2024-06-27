@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/3dm.iml" filepath="$PROJECT_DIR$/3dm.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.direnv/flake-inputs/8sh7ig1gsxwgax10k4iad85bbpnygcxr-source/pkgs/development/development.iml" filepath="$PROJECT_DIR$/.direnv/flake-inputs/8sh7ig1gsxwgax10k4iad85bbpnygcxr-source/pkgs/development/development.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.direnv/flake-inputs/8sh7ig1gsxwgax10k4iad85bbpnygcxr-source/nixos/nixos.iml" filepath="$PROJECT_DIR$/.direnv/flake-inputs/8sh7ig1gsxwgax10k4iad85bbpnygcxr-source/nixos/nixos.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.direnv/flake-inputs/8sh7ig1gsxwgax10k4iad85bbpnygcxr-source/pkgs/pkgs-lib/pkgs-lib.iml" filepath="$PROJECT_DIR$/.direnv/flake-inputs/8sh7ig1gsxwgax10k4iad85bbpnygcxr-source/pkgs/pkgs-lib/pkgs-lib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.direnv/flake-inputs/rmq5h9qalqymwdqr75jyiwm39smc6ck9-source/rmq5h9qalqymwdqr75jyiwm39smc6ck9-source.iml" filepath="$PROJECT_DIR$/.direnv/flake-inputs/rmq5h9qalqymwdqr75jyiwm39smc6ck9-source/rmq5h9qalqymwdqr75jyiwm39smc6ck9-source.iml" />
+    </modules>
+  </component>
+</project>
