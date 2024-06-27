@@ -11,6 +11,7 @@
   <property name="tmpdir" location="tmp"/>
   <property name="build-jar" location="build"/>
   <property name="javalib" location="contrib/jar"/>
+  <property name="3dm.version" value="0.1"/>
 
   <!-- Library path -->
   <path id="libpath">
