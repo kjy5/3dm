@@ -257,6 +257,14 @@ public class Merge implements XMLNode.Merger {
 ///         System.out.println(b.getContent().toString());
 /// */
         logUpdateOperation(a);
+
+          // Add conflict info to the node.
+          if (a.getContent() instanceof XMLTextNode) {
+              // If it's a text node, put conflict in text.
+              var conflictText = "<<<<<<< " + a.getContent().toString() + " ||||||| " + a.getBaseMatch().getContent().toString() + " ======= " + b.getContent().toString() + ">>>>>>>";
+              ((XMLTextNode) a.getContent()).setText(conflictText.toCharArray());
+          }
+        
         return a.getContent();
       }
     } else if ( bUpdated ) {

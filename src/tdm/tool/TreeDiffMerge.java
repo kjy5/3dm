@@ -131,7 +131,10 @@ public class TreeDiffMerge {
       
       // Handle writing conflict markers.
       var conflictLog = merge.getConflictLog();
-      System.out.println(conflictLog.getConflicts().getFirst().text);
+      var firstConflict = conflictLog.getConflicts().getFirst();
+      System.out.println("Base: " + firstConflict.b.getContent());
+      System.out.println("Branch 1: " + firstConflict.b1.getContent());
+      System.out.println("Branch 2: " + firstConflict.b2.getContent());
     } catch ( Exception e ) {
       System.err.println("Exception while merging.. trace follows:");
       System.err.println( e.toString() );
