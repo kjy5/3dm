@@ -134,6 +134,18 @@ public class Merge implements XMLNode.Merger {
       XMLNode mergedNode = mergeNodeContent( mergePair, nodeMerger );
       if( mergedNode instanceof XMLTextNode ) {
         XMLTextNode text = (XMLTextNode) mergedNode;
+
+        // Check if there were conflicts that need to be reported.
+        if (clog.hasConflicts()) {
+          var latestConflict = clog.getConflicts().getLast();
+          // Check if this node is part of this conflict.
+          if (latestConflict.b.getContent() == text || latestConflict.b1.getContent() == text || latestConflict.b2.getContent() == text) {
+            // If it's involved, add conflict info to the node.
+            var conflictText = "<<<<<<< " + latestConflict.b1.getContent().toString() + " ||||||| " + latestConflict.b.getContent().toString() + " ======= " + latestConflict.b2.getContent().toString() + ">>>>>>>";
+            text.setText(conflictText.toCharArray());
+          }
+        }
+        
         ex.startNode(text);
         ex.endNode(text);
         // NOTE: Theoretically, if we have matched text and element nodes we
@@ -142,6 +154,32 @@ public class Merge implements XMLNode.Merger {
       } else {
         // It's an element node
         XMLNode mergedElement = mergedNode;
+
+        // Check if there were conflicts that need to be reported.
+        if (clog.hasConflicts()) {
+          var latestConflict = clog.getConflicts().getLast();
+          
+          // Check if this node is part of this conflict.
+          if (latestConflict.b.getContent() == mergedElement || latestConflict.b1.getContent() == mergedElement || latestConflict.b2.getContent() == mergedElement) {
+            // If it's involved, add conflict info to the node.
+            var elementNode = (XMLElementNode) mergedElement;
+            
+            // Check if there already exists a conflict attribute.
+            var elementAttributes = elementNode.getAttributes();
+            if (elementAttributes.getIndex("conflict") == -1) {
+              // If not, add it.
+              var newAttributes = new AttributesImpl(elementAttributes);
+              newAttributes.addAttribute("", "conflict", "conflict", "CDATA", "true");
+              newAttributes.addAttribute("", "base", "base", "CDATA", latestConflict.b.getContent().toString());
+              newAttributes.addAttribute("", "left", "left", "CDATA", latestConflict.b1.getContent().toString());
+              newAttributes.addAttribute("", "right", "right", "CDATA", latestConflict.b2.getContent().toString());
+
+              // Update the attributes of the element node.
+              elementNode.setAttributes(newAttributes);
+            }
+          }
+        }
+        
         ex.startNode(mergedElement);
         // Figure out partners for recurse
         MergePair recursionPartners = getRecursionPartners( mergePair );
@@ -258,24 +296,6 @@ public class Merge implements XMLNode.Merger {
 /// */
         logUpdateOperation(a);
 
-          // Add conflict info to the node.
-          if (a.getContent() instanceof XMLTextNode) {
-              // If it's a text node, put conflict in text.
-              var conflictText = "<<<<<<< " + a.getContent().toString() + " ||||||| " + a.getBaseMatch().getContent().toString() + " ======= " + b.getContent().toString() + ">>>>>>>";
-              ((XMLTextNode) a.getContent()).setText(conflictText.toCharArray());
-          } else {
-              // If it's an element node, put conflict in attributes.
-              var elementNode = (XMLElementNode) a.getContent();
-              var newAttributes = new AttributesImpl(elementNode.getAttributes());
-              newAttributes.addAttribute("", "conflict", "conflict", "CDATA", "true");
-              newAttributes.addAttribute("", "base", "base", "CDATA", a.getBaseMatch().getContent().toString());
-              newAttributes.addAttribute("", "left", "left", "CDATA", a.getContent().toString());
-              newAttributes.addAttribute("", "right", "right", "CDATA", b.getContent().toString());
-              
-              // Update the attributes of the element node.
-              elementNode.setAttributes(newAttributes);
-          }
-        
         return a.getContent();
       }
     } else if ( bUpdated ) {

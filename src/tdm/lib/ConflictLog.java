@@ -47,12 +47,12 @@ public class ConflictLog {
     pt=apt;
   }
 
-  private class ConflictEntry {
-    String text = null;
-    BaseNode b=null;
-    BranchNode b1=null,b2=null;
-    String mergePath = null;
-    int type = 0;
+  public class ConflictEntry {
+    public String text = null;
+    public BaseNode b=null;
+    public BranchNode b1=null,b2=null;
+    public String mergePath = null;
+    public int type = 0;
   }
 
   public void addListConflict( int type, String text, BaseNode b, BranchNode ba, BranchNode bb ) {
@@ -169,5 +169,8 @@ public class ConflictLog {
 
   public boolean hasConflicts() {
     return conflicts.size() > 0;
+  }
+  public LinkedList<ConflictEntry> getConflicts() {
+    return conflicts;
   }
 }
